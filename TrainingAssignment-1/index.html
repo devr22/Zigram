@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="main">
+        <h1 class="heading">Welcome to your ToDO List</h1>
+        <button class="btn" id="btn">Add Task</button>
+        <div class="formContainer" id="formContainer">
+            <p><b>Task</b><br> <input type="text" name="task" id="task" placeholder="Enter the task"></p>
+            <input type="submit" value="Add ToDo" onclick="newNode()">
+        </div>
+
+        <div class="listContainer">
+            <ul id="myToDo">
+                <li>HTML</li>
+                <li>CSS</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="app.js"></script>
+
+</body>
+</html>

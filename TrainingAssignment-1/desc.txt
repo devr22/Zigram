@@ -1,0 +1,1 @@
+It is a simple ToDO App using HTML, CSS and JS.

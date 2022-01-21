@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import "../styles.css";
 
 const TaskForm = (props) => {
-  const [task, setTask] = useState("");
+  const prevValueForTask = props.prevValue;
+  const [task, setTask] = useState(props.prevValue);
   const [isValid, setIsValid] = useState(true);
 
   const taskChangedHandler = (event) => {
@@ -20,8 +21,14 @@ const TaskForm = (props) => {
       setIsValid(false);
       return;
     }
-    props.onSaveTask(task);
-    setTask("");
+
+    props.forEditingTask
+      ? props.onUpdateTask(prevValueForTask, task)
+      : props.onSaveTask(task);
+
+    // console.log(task);
+    // setTask("");
+    // console.log(task);
   };
 
   return (
@@ -38,7 +45,7 @@ const TaskForm = (props) => {
           />
         </p>
         <button className="btn_form" type="submit">
-          Add ToDo
+          {props.forEditingTask ? "Update" : "Add ToDo"}
         </button>
       </div>
     </form>

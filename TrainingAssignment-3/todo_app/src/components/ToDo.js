@@ -6,7 +6,8 @@ import ToDoItem from "./ToDoItem";
 
 const ToDO = (props) => {
   const [isEditing, setIsEditing] = useState(false);
-//   const [isDone, setIsDone] = useState(false);
+  const [initialTask, setInitialTask] = useState("");
+  const [forEditingTask, setForEditingTask] = useState(false);
 
   const startEditingHandler = () => {
     setIsEditing(true);
@@ -23,19 +24,25 @@ const ToDO = (props) => {
   const saveTaskHandler = (task) => {
     props.onAddTask(task);
     setIsEditing(false);
+    setInitialTask("");
   };
-
-//   const deleteTaskHandler = (event) => {
-//     props.onDeleteTask(event.target.value);
-//   };
 
   const deleteTaskHandler = (task) => {
     props.onDeleteTask(task);
   };
 
-//   const doTaskHandler = () => {
-//     setIsDone(true);
-//   };
+  const editTaskHandler = (prevValue) => {
+    setInitialTask(prevValue);
+    setForEditingTask(true);
+    startEditingHandler();
+  };
+
+  const updateTaskHandler = (oldTask, newTask) => {
+    props.onUpdateTask(oldTask, newTask);
+    setForEditingTask(false);
+    setIsEditing(false);
+    setInitialTask("");
+  };
 
   return (
     <div className="main">
@@ -43,28 +50,23 @@ const ToDO = (props) => {
       <button className="btn" onClick={btnClickHandler}>
         {!isEditing ? "Add Task" : "Close Form"}
       </button>
-      {isEditing && <TaskForm onSaveTask={saveTaskHandler} />}
+      {isEditing && (
+        <TaskForm
+          onSaveTask={saveTaskHandler}
+          prevValue={initialTask}
+          forEditingTask={forEditingTask}
+          onUpdateTask={updateTaskHandler}
+        />
+      )}
       <div className="listContainer">
         <ul>
           {props.tasks.map((task) => (
-            // <li>
-            //   {task}
-            //   <div>
-            //     <button className="btn_done" onClick={doTaskHandler}>
-            //       {isDone ? "Done" : "Do Your Task"}
-            //     </button>
-            //     <button
-            //       className="btn_delete"
-            //       value={task}
-            //       onClick={deleteTaskHandler}
-            //     >
-            //       Delete
-            //     </button>
-            //   </div>
-            // </li>
-
-            <ToDoItem task={task} onDeleteTask={deleteTaskHandler} />
-
+            <ToDoItem
+              key={Math.random().toString()}
+              task={task}
+              onDeleteTask={deleteTaskHandler}
+              onEditTask={editTaskHandler}
+            />
           ))}
         </ul>
       </div>

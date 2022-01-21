@@ -19,12 +19,21 @@ const App = () => {
     });
   };
 
+  const updateTaskHandler = (oldTask, newTask) => {
+    setTasks(() => {
+      let index = tasks.indexOf(oldTask);
+      tasks[index] = newTask;
+      return tasks;
+    });
+  };
+
   return (
     <div>
       <ToDo
         tasks={tasks}
         onAddTask={addTaskHandler}
         onDeleteTask={deleteTaskHandler}
+        onUpdateTask={updateTaskHandler}
       />
     </div>
   );

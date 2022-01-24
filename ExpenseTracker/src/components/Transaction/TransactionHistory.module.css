@@ -1,0 +1,20 @@
+.transaction h2 {
+  border-bottom: 3px solid #b0bec5;
+  color: #263238;
+  display: inline;
+}
+
+.transaction_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.transaction_header span {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.message {
+  text-align: center;
+}

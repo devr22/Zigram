@@ -1,0 +1,52 @@
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 1.5em auto;
+}
+
+.info p,
+h1,
+h2 {
+  padding: 0;
+  margin: 0;
+}
+
+.info p {
+  font-weight: bold;
+}
+
+.balance h1 {
+  font-size: 40px;
+  color: #263238;
+}
+
+.income_expense {
+  display: flex;
+  gap: 2rem;
+  background-color: #eceff1;
+  box-shadow: 0 2px 8px #cfd8dc;
+  align-items: center;
+  text-align: center;
+  padding: 20px 40px 20px 40px;
+}
+
+.income {
+  margin-right: 10px;
+}
+
+.income h2 {
+  color: green;
+  font-size: 32px;
+}
+
+.expense {
+  margin-left: 10px;
+}
+
+.expense h2 {
+  color: red;
+  font-size: 32px;
+}

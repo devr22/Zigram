@@ -1,17 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Button from "../UI/Button";
 import Input from "../UI/Input";
 import classes from "./LoginForm.module.css";
-import { CircularProgressbar } from "react-circular-progressbar";
+// import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const [isPasswordShown, setIsPasswordShown] = useState(false);
-  const [showProgress, setShowProgress] = useState(false);
+  const [message, setMessage] = useState(null);
+  // const [loginStatus, setLoginStatus] = useState(false);
+  // const [showProgress, setShowProgress] = useState(false);
 
-  let percentage = 0;
+  // let percentage = 0;
 
   const passwordVisibilityHandler = () => {
     isPasswordShown ? setIsPasswordShown(false) : setIsPasswordShown(true);
@@ -31,24 +33,48 @@ const LoginForm = () => {
       return;
     }
 
-    // setShowProgress(true);
+    setMessage(() => "Please wait! Checking your credential.");
 
-    alert("Logged In");
-    document.getElementById("loginForm").reset();
+    sendLoginRequest(enteredEmail, enteredPassword);
+  };
 
-    // setTimeout(() => {
+  const sendLoginRequest = async (enteredEmail, enteredPassword) => {
+    try {
+      const response = await fetch("https://scrapingengine.zigram.tech/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: enteredEmail,
+          password: enteredPassword,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    //   showProgress(false);
-    // }, 3000);
+      setMessage(null);
+
+      if (!response.ok) {
+        throw new Error("Login denied!, Please check your credential.");
+      }
+
+      const data = await response.json();
+
+      console.log(data);
+
+      alert("Logged In");
+
+      document.getElementById("loginForm").reset();
+
+      props.onLogin(true);
+    } catch (err) {
+      const msg = err.message || "Something went wrong1";
+      alert(msg);
+    }
   };
 
   return (
     <div className={classes["form-container"]}>
-      <form
-        id="loginForm"
-        className={classes.form}
-        onSubmit={formSubmitHandler}
-      >
+      <form id="loginForm" onSubmit={formSubmitHandler}>
         <h1>Login</h1>
         <Input
           id="email"
@@ -70,18 +96,21 @@ const LoginForm = () => {
         />
         <p
           onClick={passwordVisibilityHandler}
-          className={classes.passwordToggle}
+          className={
+            isPasswordShown ? classes.passwordHide : classes.passwordShow
+          }
         >
           {isPasswordShown ? "Hide Password" : "Show Password"}
         </p>
         <Button attributes={{ type: "submit" }}>Sign In</Button>
-        {showProgress && (
+        {/* {showProgress && (
           <CircularProgressbar
             className={classes.progress}
             value={percentage}
             text={`${percentage}%`}
           />
-        )}
+        )} */}
+        {message && <p className={classes.progressMessage}>{message}</p>}
       </form>
     </div>
   );

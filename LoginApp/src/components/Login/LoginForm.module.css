@@ -1,25 +1,18 @@
 .form-container {
-  margin-top: 20%;
-  margin-left: 15%;
+  display: grid;
+  height: 100%;
+  justify-content: center;
+  align-content: center;
 }
 
-.form {
-  display: inline-block;
-}
-
-.passwordToggle {
+.passwordHide, .passwordShow {
   margin-top: 0;
   text-align: end;
   cursor: pointer;
 }
 
-.passwordShow {
-    margin-top: 0;
-    text-align: end;
-    cursor: pointer;
-  }
 
-.passwordToggle:hover {
+.passwordHide:hover {
   text-decoration: underline;
   color: green;
 }
@@ -34,4 +27,9 @@
   height: 50px;
   margin-left: 45%;
   margin-top: 20px;
+}
+
+.progressMessage {
+  text-align: center;
+  font-weight: bold;
 }

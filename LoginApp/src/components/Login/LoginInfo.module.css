@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  padding-top: 5px;
+}
+
+.header img {
+  height: 70px;
+}
+
+.header h1 {
+  color: #eeeeee;
+  margin: 10px 0px;
+}
+
+.message {
+  font-family: "sans-serif";
+  margin-top: 25vh;
+  margin-left: 5%;
+  font-size: 52px;
+}
+
+.message a {
+  color: #f5f5f5;
+}
+
+.subMessage {
+  margin-left: 5%;
+  margin-right: 5%;
+  color: #212121;
+  margin-top: 0;
+  font-size: 18px;
+}

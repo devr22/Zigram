@@ -1,30 +1,22 @@
 import React from "react";
-import logo from "../../logo.svg";
 import LoginForm from "./LoginForm";
 import classes from "./Login.module.css";
+import LoginInfo from "./LoginInfo";
 
-const Login = () => {
+const Login = (props) => {
+  const loginHandler = (loginStatus) => {
+    if (loginStatus) {
+      props.onLogin(true);
+    }
+  };
+
   return (
     <div className={classes.login}>
-      <div className={classes["login-info"]}>
-        <header className={classes.header}>
-          <img src={logo} alt="logo" />
-          <h1>Amazing</h1>
-        </header>
-        <h1 className={classes.message}>
-          Welcome to the world of{" "}
-          <a href="https://www.google.com/" target="_blank" rel="noreferrer">
-            Internet
-          </a>
-        </h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. In possimus
-          ea, sed cumque eaque et.
-        </p>
+      <div className={classes["login-controls"] && classes["login-info"]}>
+        <LoginInfo />
       </div>
       <div className={classes["login-controls"]}>
-        <p className={classes.home}>Home</p>
-        <LoginForm />
+        <LoginForm onLogin={loginHandler} />
       </div>
     </div>
   );

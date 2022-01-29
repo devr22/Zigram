@@ -4,14 +4,16 @@ import Input from "../UI/Input";
 import classes from "./LoginForm.module.css";
 // import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import useHttp from "../../hooks/use-http";
 
 const LoginForm = (props) => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [message, setMessage] = useState(null);
-  // const [loginStatus, setLoginStatus] = useState(false);
   // const [showProgress, setShowProgress] = useState(false);
+
+  const { isLoading, error, sendRequest: loginRequest } = useHttp();
 
   // let percentage = 0;
 
@@ -33,43 +35,32 @@ const LoginForm = (props) => {
       return;
     }
 
-    setMessage(() => "Please wait! Checking your credential.");
-
     sendLoginRequest(enteredEmail, enteredPassword);
   };
 
+  const loginHandler = (responseData) => {
+    console.log(responseData);
+    setMessage("Successfuly, Logged In");
+    document.getElementById("loginForm").reset();
+    setTimeout(() => {
+      const authToken = responseData.data.access;
+      props.onLogin(authToken);
+    }, 1000);
+  };
+
   const sendLoginRequest = async (enteredEmail, enteredPassword) => {
-    try {
-      const response = await fetch("https://scrapingengine.zigram.tech/login", {
+    loginRequest(
+      {
+        endPoint: "login",
         method: "POST",
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-        }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${props.authToken}`,
         },
-      });
-
-      setMessage(null);
-
-      if (!response.ok) {
-        throw new Error("Login denied!, Please check your credential.");
-      }
-
-      const data = await response.json();
-
-      console.log(data);
-
-      alert("Logged In");
-
-      document.getElementById("loginForm").reset();
-
-      props.onLogin(true);
-    } catch (err) {
-      const msg = err.message || "Something went wrong1";
-      alert(msg);
-    }
+        body: { email: enteredEmail, password: enteredPassword },
+      },
+      loginHandler
+    );
   };
 
   return (
@@ -103,13 +94,16 @@ const LoginForm = (props) => {
           {isPasswordShown ? "Hide Password" : "Show Password"}
         </p>
         <Button attributes={{ type: "submit" }}>Sign In</Button>
-        {/* {showProgress && (
-          <CircularProgressbar
-            className={classes.progress}
-            value={percentage}
-            text={`${percentage}%`}
-          />
-        )} */}
+        {isLoading && (
+          <p className={classes.progressMessage}>
+            Please wait! Checking your credential.
+          </p>
+        )}
+        {error && (
+          <p className={classes.progressMessage}>
+            {error} Please check your credential.
+          </p>
+        )}
         {message && <p className={classes.progressMessage}>{message}</p>}
       </form>
     </div>

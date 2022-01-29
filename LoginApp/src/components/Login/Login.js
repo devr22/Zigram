@@ -4,10 +4,8 @@ import classes from "./Login.module.css";
 import LoginInfo from "./LoginInfo";
 
 const Login = (props) => {
-  const loginHandler = (loginStatus) => {
-    if (loginStatus) {
-      props.onLogin(true);
-    }
+  const loginHandler = (authToken) => {
+    props.onLogin(authToken);
   };
 
   return (

@@ -1,0 +1,8 @@
+.liItem {
+  border-bottom: 1px solid #ccc;
+  padding: 1rem;
+}
+
+.liItem:last-of-type {
+  border-bottom: none;
+}
